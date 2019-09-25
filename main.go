@@ -8,7 +8,7 @@ import (
 	"syscall"
 
 	log "github.com/Sirupsen/logrus"
-	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
 func init() {
@@ -42,7 +42,7 @@ func main() {
 
 func serveMetrics() {
 	log.Infof("Starting metric http endpoint on %s", *bindAddr)
-	http.Handle(*metricsPath, prometheus.Handler())
+	http.Handle(*metricsPath, promhttp.Handler())
 	http.HandleFunc("/", rootHandler)
 	log.Fatal(http.ListenAndServe(*bindAddr, nil))
 }
